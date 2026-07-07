@@ -7,21 +7,21 @@
 
     .main {
       position: relative;
-      background-color: hsl(247deg 23% 15%);
-      background-image: radial-gradient(rgb(42 39 63, 0.9), #1f1d2e 120%);
+      background-color: #181614; 
+      background-image: radial-gradient(rgba(45, 42, 38, 0.9), #0f0d0c 120%);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       height: 100vh;
       margin: 0;
-      color: hsl(343deg 76% 68%);
+      color: hsl(39deg 30% 64%); 
       font-family: monospace;
       text-shadow:
-        0 0 10px hsl(343deg 76% 68% / 0.4),
-        0 0 15px hsl(343deg 76% 68% / 0.3),
-        0 0 20px hsl(343deg 76% 68% / 0.2),
-        0 0 25px hsl(343deg 76% 68% / 0.1);
+        0 0 10px hsl(39deg 30% 64% / 0.4),
+        0 0 15px hsl(39deg 30% 64% / 0.3),
+        0 0 20px hsl(39deg 30% 64% / 0.2),
+        0 0 25px hsl(39deg 30% 64% / 0.1);
     }
 
     .main::after {
@@ -46,8 +46,8 @@
       left: 0;
       width: 100%;
       height: 100%;
-      box-shadow: 0 0 120px rgba(0, 0, 0, 0.9) inset;
-      pointer-events: none; /* <-- This line fixes the issue */
+      box-shadow: 0 0 150px rgba(0, 0, 0, 0.85) inset;
+      pointer-events: none;
     }
 
     .content {
@@ -62,20 +62,19 @@
       font-size: 3.5rem;
       display: block;
       margin-bottom: 24px;
-      letter-spacing: -3px; /* Added tighter letter-spacing */
-      /* font-weight: 400; removed so it defaults to h1 bold */
+      letter-spacing: -3px;
     }
 
     .cursor {
-      background: hsl(343deg 76% 68%);
+      background: hsl(39deg 30% 64%);
       width: 0.5em;
       height: 1em;
       display: inline-block;
       box-shadow:
-        0 0 10px hsl(343deg 76% 68% / 0.4),
-        0 0 15px hsl(343deg 76% 68% / 0.3),
-        0 0 20px hsl(343deg 76% 68% / 0.2),
-        0 0 25px hsl(343deg 76% 68% / 0.1);
+        0 0 10px hsl(39deg 30% 64% / 0.4),
+        0 0 15px hsl(39deg 30% 64% / 0.3),
+        0 0 20px hsl(39deg 30% 64% / 0.2),
+        0 0 25px hsl(39deg 30% 64% / 0.1);
       top: 4px;
       left: -24px;
       position: relative;
@@ -93,6 +92,7 @@
       display: block;
       list-style: none;
       font-size: 1.2rem;
+      line-height: 1.6;
     }
 
     .main a {
@@ -103,14 +103,20 @@
 
     .main a:hover {
       text-shadow:
-        0 0 12px hsl(343deg 76% 68% / 0.7),
-        0 0 17px hsl(343deg 76% 68% / 0.4),
-        0 0 22px hsl(343deg 76% 68% / 0.4),
-        0 0 27px hsl(343deg 76% 68% / 0.3);
+        0 0 12px hsl(39deg 30% 64% / 0.7),
+        0 0 17px hsl(39deg 30% 64% / 0.4),
+        0 0 22px hsl(39deg 30% 64% / 0.4),
+        0 0 27px hsl(39deg 30% 64% / 0.3);
     }
 
     .main a:visited {
-      color: hsl(343deg 76% 68%);
+      color: hsl(39deg 30% 64%);
+    }
+
+    #tz-comparison {
+      opacity: 0.7;
+      font-size: 0.95rem;
+      margin-left: 8px;
     }
   </style>
 </head>
@@ -118,17 +124,60 @@
   <main class="main">
     <div class="vignette"></div>
     <div class="content">
-      <h1 class="title">coder.pink
+      <h1 class="title">quattr.one
         <span class="cursor"></span>
       </h1>
       <ul class="list">
-        <li>threads: <a href="https://threads.net/coder.pink">@coder.pink</a></li>
-        <li>games: &nbsp;
-          <a href="https://fuchsia-studios.itch.io">itch.io</a>
-        </li>
-        <li>company: discord</li>
+        <li>instagram: <a href="https://instagram.com/alex.4ne" target="_blank">@alex.4ne</a></li>
+        <li>last.fm: &nbsp;&nbsp;<a href="https://www.last.fm/user/aqlex" target="_blank">aqlex</a></li>
+        <li>timezone: &nbsp;<span id="live-time">00:00</span> <span id="tz-comparison"></span></li>
       </ul>
     </div>
   </main>
+
+  <script>
+    function updateTimezone() {
+      const now = new Date();
+
+      const timeOptions = { timeZone: 'Europe/Rome', hour: '2-digit', minute: '2-digit', hour12: false };
+      const tzOptions = { timeZone: 'Europe/Rome', timeZoneName: 'short' };
+      
+      const timeString = new Intl.DateTimeFormat('en-US', timeOptions).format(now);
+      const tzNameString = new Intl.DateTimeFormat('en-US', tzOptions).format(now).split(' ').pop();
+
+      document.getElementById('live-time').textContent = `${timeString} ${tzNameString}`;
+
+      const getZoneRecord = (tz) => {
+        const formatter = new Intl.DateTimeFormat('en-US', {
+          timeZone: tz, year: 'numeric', month: 'numeric', day: 'numeric',
+          hour: 'numeric', minute: 'numeric', hour12: false
+        });
+        const parts = formatter.formatToParts(new Date()).reduce((acc, p) => ({ ...acc, [p.type]: p.value }), {});
+        return Date.UTC(parts.year, parts.month - 1, parts.day, parts.hour, parts.minute);
+      };
+
+      try {
+        const localMs = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(), now.getMinutes());
+        const targetMs = getZoneRecord('Europe/Rome');
+        const diffHours = Math.round((targetMs - localMs) / (1000 * 60 * 60));
+
+        let comparisonText = "";
+        if (diffHours === 0) {
+          comparisonText = "(same timezone)";
+        } else if (diffHours > 0) {
+          comparisonText = `(${diffHours}h ahead of you)`;
+        } else {
+          comparisonText = `(${Math.abs(diffHours)}h behind you)`;
+        }
+        
+        document.getElementById('tz-comparison').textContent = comparisonText;
+      } catch (e) {
+        document.getElementById('tz-comparison').textContent = "";
+      }
+    }
+
+    updateTimezone();
+    setInterval(updateTimezone, 60000);
+  </script>
 </body>
 </html>
