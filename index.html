@@ -136,6 +136,15 @@
       margin-left: 8px;
     }
 
+    /* By default (on PC), hide the mobile line */
+    .mobile-only {
+      display: none;
+    }
+
+    .desktop-only {
+      display: list-item;
+    }
+
     @media (max-width: 600px) {
       .title {
         font-size: 2.5rem;
@@ -152,6 +161,14 @@
         margin-left: 0;
         margin-top: 4px;
       }
+      
+      /* On mobile, swap what is hidden and what is shown */
+      .desktop-only {
+        display: none;
+      }
+      .mobile-only {
+        display: list-item;
+      }
     }
   </style>
 </head>
@@ -164,7 +181,8 @@
       </h1>
       <ul class="list">
         <li>instagram: <a href="https://instagram.com/alex.4ne" target="_blank">@alex.4ne</a></li>
-        <li>mac: <a href="https://mac.quattr.one" target="_blank">mac.quattr.one</a></li>
+        <li class="desktop-only">mac: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://mac.quattr.one" target="_blank">mac.quattr.one</a></li>
+        <li class="mobile-only">last.fm: &nbsp;&nbsp;<a href="https://www.last.fm/user/aqlex" target="_blank">aqlex</a></li>
         <li>timezone: &nbsp;<span id="live-time">00:00</span> <span id="tz-comparison"></span></li>
       </ul>
     </div>
