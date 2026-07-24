@@ -29,7 +29,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      height: 100vh;
+      min-height: 100vh;
       margin: 0;
       color: hsl(39deg 30% 64%); 
       font-family: monospace;
@@ -141,6 +141,28 @@
       display: list-item;
     }
 
+    /* --- badges (88x31 webring style) --- */
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 28px;
+    }
+
+    .badges img {
+      display: block;
+      width: 88px;
+      height: 31px;
+      image-rendering: pixelated;
+      filter: drop-shadow(0 0 4px hsl(39deg 30% 64% / 0.25));
+      transition: filter 0.15s linear, transform 0.15s linear;
+    }
+
+    .badges a:hover img {
+      filter: drop-shadow(0 0 8px hsl(39deg 30% 64% / 0.5));
+      transform: translateY(-1px);
+    }
+
     @media (max-width: 600px) {
       .title {
         font-size: 2.5rem;
@@ -177,6 +199,18 @@
         <li>bio: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://bio.quattr.one" target="_blank">bio.quattr.one</a></li>
         <li>time: &nbsp;<span id="live-time">00:00</span> <span id="tz-comparison"></span></li>
       </ul>
+
+      <div class="badges">
+        <a href="https://quattr.one/imagine.gif" target="_blank" rel="noopener">
+          <img src="https://raw.githubusercontent.com/quattrr/.one/main/imagine.gif" alt="imagine" width="88" height="31" loading="lazy" />
+        </a>
+        <a href="https://quattr.one/bestvieweddesktop.gif" target="_blank" rel="noopener">
+          <img src="https://raw.githubusercontent.com/quattrr/.one/main/bestvieweddesktop.gif" alt="best viewed on desktop" width="88" height="31" loading="lazy" />
+        </a>
+        <a href="https://quattr.one/baero.gif" target="_blank" rel="noopener">
+          <img src="https://raw.githubusercontent.com/quattrr/.one/main/baero.gif" alt="baero" width="88" height="31" loading="lazy" />
+        </a>
+      </div>
     </div>
   </main>
 
